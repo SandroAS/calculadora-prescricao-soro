@@ -6,6 +6,9 @@ import vuetify from './plugins/vuetify'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 
+import '@/plugins/vee-validate'
+import '@/plugins/vue-the-mask'
+
 Vue.config.productionTip = false
 
 new Vue({
