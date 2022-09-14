@@ -42,9 +42,10 @@
                   <v-text-field
                     v-model="kg"
                     :error-messages="errors"
-                    label="Kg"
+                    label="Peso"
                     required
-                    v-mask="['##.### Kg', '###.### Kg']"
+                    suffix="Kg"
+                    v-mask="['##.###', '###.###']"
                   ></v-text-field>
                 </validation-provider>
 
