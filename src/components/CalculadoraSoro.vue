@@ -36,7 +36,7 @@
               >
                 <validation-provider
                   v-slot="{ errors }"
-                  name="Kg"
+                  name="Peso"
                   rules="required|double"
                 >
                   <v-text-field
@@ -49,13 +49,44 @@
                   ></v-text-field>
                 </validation-provider>
 
-                <v-btn
-                  type="submit"
-                  :disabled="invalid"
-                  color="primary"
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="Quantidade de soro ganho"
+                  rules="required|numeric"
                 >
-                  submit
-                </v-btn>
+                  <v-text-field
+                    v-model="soroGanho"
+                    :error-messages="errors"
+                    label="Quantidade de soro ganho"
+                    required
+                    suffix="ml"
+                  ></v-text-field>
+                </validation-provider>
+
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="Quantidade de soro ganho"
+                  rules="required|numeric"
+                >
+                  <v-text-field
+                    value="400"
+                    :error-messages="errors"
+                    label="Quantidade de água endógena ganha"
+                    required
+                    suffix="ml"
+                    disabled
+                  ></v-text-field>
+                </validation-provider>
+
+                <v-card-actions>
+                  <v-btn
+                    type="submit"
+                    :disabled="invalid"
+                    color="primary"
+                  >
+                    Calcular
+                  </v-btn>
+                </v-card-actions>
 
               </v-form>
             </validation-observer>
@@ -75,7 +106,8 @@ export default {
 
   data: () => ({
     valid: true,
-    kg: ''
+    kg: '',
+    soroGanho: ''
   }),
   methods: {
     submit () {

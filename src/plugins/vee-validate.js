@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { required, double } from 'vee-validate/dist/rules'
+import { required, double, numeric } from 'vee-validate/dist/rules'
 import { ValidationObserver, ValidationProvider, extend, setInteractionMode } from 'vee-validate'
 
 setInteractionMode('eager')
@@ -12,6 +12,11 @@ extend('required', {
 
 extend('double', {
   ...double,
+  message: '{_field_} precisa ser um valor numérico.'
+})
+
+extend('numeric', {
+  ...numeric,
   message: '{_field_} precisa ser um valor numérico.'
 })
 
