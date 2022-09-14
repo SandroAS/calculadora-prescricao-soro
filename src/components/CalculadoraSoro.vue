@@ -34,6 +34,8 @@
                 lazy-validation
                 @submit.prevent="submit"
               >
+                <h2>Dados</h2>
+
                 <validation-provider
                   v-slot="{ errors }"
                   name="Peso"
@@ -49,34 +51,91 @@
                   ></v-text-field>
                 </validation-provider>
 
+                <h2>Ganhos</h2>
+
                 <validation-provider
                   v-slot="{ errors }"
-                  name="Quantidade de soro ganho"
+                  name="Quantidade de soro"
                   rules="required|numeric"
                 >
                   <v-text-field
                     v-model="soroGanho"
                     :error-messages="errors"
-                    label="Quantidade de soro ganho"
+                    label="Quantidade de soro"
                     required
                     suffix="ml"
                   ></v-text-field>
                 </validation-provider>
 
+                <v-text-field
+                  value="400"
+                  label="Quantidade de água endógena"
+                  required
+                  suffix="ml"
+                  disabled
+                ></v-text-field>
+
+                <h2>Perdas</h2>
+
                 <validation-provider
                   v-slot="{ errors }"
-                  name="Quantidade de soro ganho"
+                  name="Soma de eletrolitos perdidos"
                   rules="required|numeric"
                 >
                   <v-text-field
-                    value="400"
+                    v-model="somaEletrolitosPerdidos"
                     :error-messages="errors"
-                    label="Quantidade de água endógena ganha"
+                    label="Soma de eletrolitos perdidos"
                     required
                     suffix="ml"
-                    disabled
+                    messages="Olhar sondas e drenos"
                   ></v-text-field>
                 </validation-provider>
+
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="Diurese"
+                  rules="required|numeric"
+                >
+                  <v-text-field
+                    v-model="diurese"
+                    :error-messages="errors"
+                    label="Diurese"
+                    required
+                    suffix="ml"
+                  ></v-text-field>
+                </validation-provider>
+
+                <v-row>
+                  <v-col col="12" sm="12" md="6">
+                    <v-text-field
+                      v-model="insensiveis"
+                      label="Insensíveis"
+                      required
+                      suffix="ml"
+                      disabled
+                    ></v-text-field>
+                  </v-col>
+                  <v-col col="12" sm="12" md="6">
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Temperatura do dia"
+                      rules="required|numeric"
+                    >
+                      <v-text-field
+                        v-model="temperaturaDoDia"
+                        class="mt-0 pt-0"
+                        :error-messages="errors"
+                        label="Temperatura do dia"
+                        required
+                        suffix="°C"
+                        single-line
+                        type="number"
+                        style="width: 60px; padding-top: 16px !important;"
+                      ></v-text-field>
+                    </validation-provider>
+                  </v-col>
+                </v-row>
 
                 <v-card-actions>
                   <v-btn
@@ -103,12 +162,22 @@
 
 export default {
   name: 'CalculadoraSoro',
-
   data: () => ({
     valid: true,
     kg: '',
-    soroGanho: ''
+    soroGanho: '',
+    somaEletrolitosPerdidos: '',
+    diurese: '',
+    insensiveis: 1000,
+    temperaturaDoDia: 29
   }),
+  watch: {
+    temperaturaDoDia() {
+      if(this.temperaturaDoDia > 29) {
+        this.insensiveis = 1000 + ((this.temperaturaDoDia - 29) * 500)
+      }
+    }
+  },
   methods: {
     submit () {
       this.$refs.observer.validate()
