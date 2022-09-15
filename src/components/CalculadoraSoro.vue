@@ -208,7 +208,32 @@
                   disabled
                 ></v-text-field>
 
-                <h2>Balanço Hídrico</h2>
+                <h2 class="mb-5">Balanço Hídrico</h2>
+
+                <v-row>
+                  <v-col cols="12" sm="4" md="4" class="d-flex justify-space-between">
+                    <h3>Ganhos</h3>
+                    <h3>-</h3>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4" class="d-flex justify-space-between">
+                    <h3>Perdas</h3>
+                    <h3>=</h3>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4" class="d-flex justify-center">
+                    <h3>Total</h3>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4" class="d-flex justify-space-between">
+                    <span>{{ ganhos }}</span>
+                    <h3>-</h3>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4" class="d-flex justify-space-between">
+                    <span>{{ perdas }}</span>
+                    <h3>=</h3>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="4" class="d-flex justify-center">
+                    <span>{{ ganhos - perdas }}</span>
+                  </v-col>
+                </v-row>
 
                 <v-card-actions>
                   <v-btn
@@ -252,6 +277,12 @@ export default {
   computed: {
     insensiveis() {
       return this.insensiveisTemperaturaDoDia + this.insensiveisFebre + this.insensiveisTaquipneia
+    },
+    ganhos() {
+      return this.soroGanho + 400
+    },
+    perdas() {
+      return this.somaEletrolitosPerdidos + this.diurese + this.insensiveis
     }
   },
   watch: {
