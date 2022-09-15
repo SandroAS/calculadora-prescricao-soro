@@ -35,7 +35,7 @@
                 @submit.prevent="submit"
               >
                 <h2>Dados</h2>
-
+                <!-- Kg -->
                 <validation-provider
                   v-slot="{ errors }"
                   name="Peso"
@@ -52,7 +52,7 @@
                 </validation-provider>
 
                 <h2>Ganhos</h2>
-
+                <!-- Soro Ganho -->
                 <validation-provider
                   v-slot="{ errors }"
                   name="Quantidade de soro"
@@ -66,7 +66,7 @@
                     suffix="ml"
                   ></v-text-field>
                 </validation-provider>
-
+                <!-- Quantidade de água endógena -->
                 <v-text-field
                   value="400"
                   label="Quantidade de água endógena"
@@ -75,7 +75,94 @@
                   disabled
                 ></v-text-field>
 
-                <h2>Perdas</h2>
+                <h2 class="mb-5">Perdas</h2>
+                <!-- Drenagens -->
+                <v-row>
+                  <!-- Checkbox Drenagem Serossanguínea -->
+                  <v-col cols="12" sm="6" md="6">
+                    <v-checkbox
+                      v-model="houveDrenagemSerossanguinea"
+                      class="ma-0"
+                    >
+                      <template v-slot:label>
+                        <small>Drenagem serossanguínea</small>
+                      </template>
+                    </v-checkbox>
+                  </v-col>
+                  <!-- Input Drenagem Serossanguínea -->
+                  <v-col cols="12" sm="6" md="6">
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Quantidade de dreno serossanguíneo"
+                      rules="required|numeric"
+                    >
+                      <v-text-field
+                        v-model="drenagemSerossanguinea"
+                        :error-messages="errors"
+                        label="Quantidade de dreno serossanguíneo"
+                        required
+                        suffix="ml"
+                        :disabled="!houveDrenagemSerossanguinea"
+                      ></v-text-field>
+                    </validation-provider>
+                  </v-col>
+                  <!-- Checkbox Drenagem Gástrica -->
+                  <v-col cols="12" sm="6" md="6">
+                    <v-checkbox
+                      v-model="houveDrenagemGastrica"
+                      class="ma-0"
+                    >
+                      <template v-slot:label>
+                        <small>Drenagem gástrica</small>
+                      </template>
+                    </v-checkbox>
+                  </v-col>
+                  <!-- Input Drenagem Gástrica -->
+                  <v-col cols="12" sm="6" md="6">
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Quantidade de dreno gástrico"
+                      rules="required|numeric"
+                    >
+                      <v-text-field
+                        v-model="drenagemGastrica"
+                        :error-messages="errors"
+                        label="Quantidade de dreno gástrico"
+                        required
+                        suffix="ml"
+                        :disabled="!houveDrenagemGastrica"
+                      ></v-text-field>
+                    </validation-provider>
+                  </v-col>
+                  <!-- Checkbox Drenagem Duodenal -->
+                  <v-col cols="12" sm="6" md="6">
+                    <v-checkbox
+                      v-model="houveDrenagemDuodenal"
+                      class="ma-0"
+                    >
+                      <template v-slot:label>
+                        <small>Drenagem duodenal</small>
+                      </template>
+                    </v-checkbox>
+                  </v-col>
+                  <!-- Input Drenagem Duodenal -->
+                  <v-col cols="12" sm="6" md="6">
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Quantidade de dreno duodenal"
+                      rules="required|numeric"
+                    >
+                      <v-text-field
+                        v-model="drenagemDuodenal"
+                        :error-messages="errors"
+                        label="Quantidade de dreno duodenal"
+                        required
+                        suffix="ml"
+                        :disabled="!houveDrenagemDuodenal"
+                      ></v-text-field>
+                    </validation-provider>
+                  </v-col>
+                </v-row>
 
                 <validation-provider
                   v-slot="{ errors }"
@@ -210,7 +297,7 @@
 
                 <h2 class="mb-5">Balanço Hídrico</h2>
 
-                <v-row>
+                <v-row class="mb-3">
                   <v-col cols="12" sm="4" md="4" class="d-flex justify-space-between">
                     <h3>Ganhos</h3>
                     <h3>-</h3>
@@ -234,6 +321,8 @@
                     <span>{{ ganhos - perdas }}</span>
                   </v-col>
                 </v-row>
+
+                <h2>Cálculo NBD</h2>
 
                 <v-card-actions>
                   <v-btn
@@ -264,6 +353,12 @@ export default {
     valid: true,
     kg: '',
     soroGanho: '',
+    houveDrenagemSerossanguinea: false,
+    houveDrenagemGastrica: false,
+    houveDrenagemDuodenal: false,
+    drenagemSerossanguinea: 0,
+    drenagemGastrica: 0,
+    drenagemDuodenal: 0,
     somaEletrolitosPerdidos: '',
     diurese: '',
     insensiveisTemperaturaDoDia: 1000,
