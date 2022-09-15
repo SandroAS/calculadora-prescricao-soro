@@ -103,6 +103,7 @@
                         required
                         suffix="ml"
                         :disabled="!houveDrenagemSerossanguinea"
+                        @blur="removeLeftZero('serossanguineo')"
                       ></v-text-field>
                     </validation-provider>
                   </v-col>
@@ -131,6 +132,7 @@
                         required
                         suffix="ml"
                         :disabled="!houveDrenagemGastrica"
+                        @blur="removeLeftZero('gastrico')"
                       ></v-text-field>
                     </validation-provider>
                   </v-col>
@@ -159,6 +161,7 @@
                         required
                         suffix="ml"
                         :disabled="!houveDrenagemDuodenal"
+                        @blur="removeLeftZero('duodenal')"
                       ></v-text-field>
                     </validation-provider>
                   </v-col>
@@ -356,9 +359,9 @@ export default {
     houveDrenagemSerossanguinea: false,
     houveDrenagemGastrica: false,
     houveDrenagemDuodenal: false,
-    drenagemSerossanguinea: 0,
-    drenagemGastrica: 0,
-    drenagemDuodenal: 0,
+    drenagemSerossanguinea: '0',
+    drenagemGastrica: '0',
+    drenagemDuodenal: '0',
     somaEletrolitosPerdidos: '',
     diurese: '',
     insensiveisTemperaturaDoDia: 1000,
@@ -399,11 +402,52 @@ export default {
     },
     taquipneia(newTaquipneia) {
       this.insensiveisTaquipneia = newTaquipneia > 35 ? 1000 : 0
+    },
+    houveDrenagemSerossanguinea(newHouveDrenagemSerossanguinea) {
+      if(!newHouveDrenagemSerossanguinea) this.drenagemSerossanguinea = 0
+    },
+    houveDrenagemGastrica(newHouveDrenagemGastrica) {
+      if(!newHouveDrenagemGastrica) this.drenagemGastrica = 0
+    },
+    houveDrenagemDuodenal(newHouveDrenagemDuodenal) {
+      if(!newHouveDrenagemDuodenal) this.drenagemDuodenal = 0
     }
   },
   methods: {
     submit () {
       this.$refs.observer.validate()
+    },
+    removeLeftZero(dreno) {
+      let temZeroAEsquerda = false
+      switch (dreno) {
+        case 'serossanguineo':
+          temZeroAEsquerda = this.drenagemSerossanguinea.substring(1, 0) === '0'
+          while (temZeroAEsquerda) {
+            if(temZeroAEsquerda) {
+              this.drenagemSerossanguinea = this.drenagemSerossanguinea.substring(1, this.drenagemSerossanguinea)
+            }
+            temZeroAEsquerda = this.drenagemSerossanguinea.substring(1, 0) === '0'
+          }
+          break
+        case 'gastrico':
+          temZeroAEsquerda = this.drenagemGastrica.substring(1, 0) === '0'
+          while (temZeroAEsquerda) {
+            if(temZeroAEsquerda) {
+              this.drenagemGastrica = this.drenagemGastrica.substring(1, this.drenagemGastrica)
+            }
+            temZeroAEsquerda = this.drenagemGastrica.substring(1, 0) === '0'
+          }
+          break
+        case 'duodenal':
+          temZeroAEsquerda = this.drenagemDuodenal.substring(1, 0) === '0'
+          while (temZeroAEsquerda) {
+            if(temZeroAEsquerda) {
+              this.drenagemDuodenal = this.drenagemDuodenal.substring(1, this.drenagemDuodenal)
+            }
+            temZeroAEsquerda = this.drenagemDuodenal.substring(1, 0) === '0'
+          }
+          break
+      }
     }
   }
 }
