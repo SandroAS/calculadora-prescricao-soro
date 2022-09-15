@@ -124,14 +124,12 @@
                     >
                       <v-text-field
                         v-model="temperaturaDoDia"
-                        class="mt-0 pt-0"
                         :error-messages="errors"
                         label="Temperatura do dia"
                         required
                         suffix="°C"
-                        single-line
                         type="number"
-                        style="width: 60px; padding-top: 16px !important;"
+                        style="width: 60px"
                       ></v-text-field>
                     </validation-provider>
                   </v-col>
