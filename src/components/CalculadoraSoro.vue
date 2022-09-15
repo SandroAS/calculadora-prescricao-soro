@@ -107,16 +107,17 @@
                 </validation-provider>
 
                 <v-row>
-                  <v-col col="12" sm="12" md="6">
+                  <v-col cols="12" sm="12" md="6">
                     <v-text-field
-                      v-model="insensiveis"
+                      v-model="insensiveisTemperaturaDoDia"
                       label="Insensíveis"
                       required
                       suffix="ml"
+                      prefix="+"
                       disabled
                     ></v-text-field>
                   </v-col>
-                  <v-col col="12" sm="12" md="6">
+                  <v-col cols="12" sm="12" md="6">
                     <validation-provider
                       v-slot="{ errors }"
                       name="Temperatura do dia"
@@ -129,7 +130,62 @@
                         required
                         suffix="°C"
                         type="number"
-                        style="width: 60px"
+                      ></v-text-field>
+                    </validation-provider>
+                  </v-col>
+                  <v-col cols="12" sm="5" md="6">
+                    <v-text-field
+                      v-model="insensiveisFebre"
+                      label="Insensíveis"
+                      required
+                      suffix="ml"
+                      prefix="+"
+                      disabled
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="4" md="3">
+                    <v-checkbox
+                      v-model="possuiFebre"
+                      class="ma-0"
+                    >
+                      <template v-slot:label>
+                        <small>Possui febre?</small>
+                      </template>
+                    </v-checkbox>
+                  </v-col>
+                  <v-col cols="12" sm="3" md="3">
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Febre"
+                      rules="required|double"
+                    >
+                      <v-text-field
+                        v-model="febre"
+                        :error-messages="errors"
+                        label="Febre"
+                        required
+                        suffix="°C"
+                        type="number"
+                        min="37.2"
+                        :disabled="!possuiFebre"
+                      ></v-text-field>
+                    </validation-provider>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="6">
+                  </v-col>
+                  <v-col cols="12" sm="12" md="6">
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="Taquipneia"
+                      rules="required|numeric"
+                    >
+                      <v-text-field
+                        v-model="temperaturaDoDia"
+                        :error-messages="errors"
+                        label="Taquipneia"
+                        required
+                        suffix="irpm"
+                        type="number"
                       ></v-text-field>
                     </validation-provider>
                   </v-col>
@@ -166,14 +222,28 @@ export default {
     soroGanho: '',
     somaEletrolitosPerdidos: '',
     diurese: '',
-    insensiveis: 1000,
-    temperaturaDoDia: 29
+    insensiveisTemperaturaDoDia: 1000,
+    temperaturaDoDia: 29,
+    insensiveisFebre: 0,
+    febre: 37.2,
+    possuiFebre: false
   }),
   watch: {
-    temperaturaDoDia() {
-      if(this.temperaturaDoDia > 29) {
-        this.insensiveis = 1000 + ((this.temperaturaDoDia - 29) * 500)
-      } else this.insensiveis = 1000
+    temperaturaDoDia(newTemperaturaDoDia) {
+      if(newTemperaturaDoDia > 29) {
+        this.insensiveisTemperaturaDoDia = ((newTemperaturaDoDia - 29) * 500) + 1000
+      } else this.insensiveisTemperaturaDoDia = 1000
+    },
+    possuiFebre(newPossuiFebre) {
+      if(!newPossuiFebre) {
+        this.insensiveisFebre = 0
+        this.febre = 37.2
+      }
+    },
+    febre(newFebre) {
+      if(newFebre > 37.2 && newFebre - 37.2 >= 1) {
+        this.insensiveisFebre = Math.trunc((newFebre - 37.2)) * 100
+      } else this.insensiveisFebre = 0
     }
   },
   methods: {
