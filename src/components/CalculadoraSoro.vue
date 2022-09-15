@@ -172,6 +172,14 @@
                     </validation-provider>
                   </v-col>
                   <v-col cols="12" sm="12" md="6">
+                    <v-text-field
+                      v-model="insensiveisTaquipneia"
+                      label="Insensíveis"
+                      required
+                      suffix="ml"
+                      prefix="+"
+                      disabled
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="12" md="6">
                     <validation-provider
@@ -180,7 +188,7 @@
                       rules="required|numeric"
                     >
                       <v-text-field
-                        v-model="temperaturaDoDia"
+                        v-model="taquipneia"
                         :error-messages="errors"
                         label="Taquipneia"
                         required
@@ -190,6 +198,17 @@
                     </validation-provider>
                   </v-col>
                 </v-row>
+
+                <v-text-field
+                  v-model="insensiveis"
+                  label="Insensíveis"
+                  required
+                  suffix="ml"
+                  prefix="="
+                  disabled
+                ></v-text-field>
+
+                <h2>Balanço Hídrico</h2>
 
                 <v-card-actions>
                   <v-btn
@@ -225,14 +244,21 @@ export default {
     insensiveisTemperaturaDoDia: 1000,
     temperaturaDoDia: 29,
     insensiveisFebre: 0,
+    possuiFebre: false,
     febre: 37.2,
-    possuiFebre: false
+    insensiveisTaquipneia: 0,
+    taquipneia: 0
   }),
+  computed: {
+    insensiveis() {
+      return this.insensiveisTemperaturaDoDia + this.insensiveisFebre + this.insensiveisTaquipneia
+    }
+  },
   watch: {
     temperaturaDoDia(newTemperaturaDoDia) {
-      if(newTemperaturaDoDia > 29) {
-        this.insensiveisTemperaturaDoDia = ((newTemperaturaDoDia - 29) * 500) + 1000
-      } else this.insensiveisTemperaturaDoDia = 1000
+      this.insensiveisTemperaturaDoDia = newTemperaturaDoDia > 29
+        ? ((newTemperaturaDoDia - 29) * 500) + 1000
+        : 1000
     },
     possuiFebre(newPossuiFebre) {
       if(!newPossuiFebre) {
@@ -241,9 +267,12 @@ export default {
       }
     },
     febre(newFebre) {
-      if(newFebre > 37.2 && newFebre - 37.2 >= 1) {
-        this.insensiveisFebre = Math.trunc((newFebre - 37.2)) * 100
-      } else this.insensiveisFebre = 0
+      this.insensiveisFebre = newFebre > 37.2 && newFebre - 37.2 >= 1
+        ? Math.trunc((newFebre - 37.2)) * 100
+        : 0
+    },
+    taquipneia(newTaquipneia) {
+      this.insensiveisTaquipneia = newTaquipneia > 35 ? 1000 : 0
     }
   },
   methods: {

@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 import Vue from 'vue'
-import { required, double, numeric, min } from 'vee-validate/dist/rules'
+import { required, double, numeric, min_value, min } from 'vee-validate/dist/rules'
 import { ValidationObserver, ValidationProvider, extend, setInteractionMode } from 'vee-validate'
 
 setInteractionMode('eager')
@@ -20,10 +21,16 @@ extend('numeric', {
   message: '{_field_} precisa ser um valor numérico inteiro.'
 })
 
+extend('min_value', {
+  ...min_value,
+  params: ['length'],
+  message: '{_field_} precisa ser no mínimo {length}.'
+})
+
 extend('min', {
   ...min,
   params: ['length'],
-  message: '{_field_} precisa ser no mínimo {length} °C.'
+  message: '{_field_} precisa ser no mínimo {length}.'
 })
 
 // Register it globally
