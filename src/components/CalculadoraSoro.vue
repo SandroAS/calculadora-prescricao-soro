@@ -175,7 +175,7 @@ export default {
     temperaturaDoDia() {
       if(this.temperaturaDoDia > 29) {
         this.insensiveis = 1000 + ((this.temperaturaDoDia - 29) * 500)
-      }
+      } else this.insensiveis = 1000
     }
   },
   methods: {
