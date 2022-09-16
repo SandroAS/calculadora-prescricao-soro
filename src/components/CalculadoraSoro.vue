@@ -4,13 +4,9 @@
 
       <v-flex xs12 sm8 md7 lg6 xl3>
 
-        <h1 class="text-center">Calculadora para Prescrição de Soro</h1>
-        <h3 class="text-center">Distúrbio Hidroeletrolítico</h3>
+        <h1 class="text-center mt-5">Calculadora para Prescrição de Soroterapia</h1>
 
         <v-card elevation="12" class="mt-5">
-          <v-img
-            src="https://guiadafarmacia.com.br/wp-content/uploads/2019/03/prescricao-terapeutica-digital.jpg"
-          ></v-img>
 
           <v-toolbar color="primary" dark>
             <v-toolbar-title>Preencha os dados do paciente</v-toolbar-title>
@@ -508,17 +504,17 @@
                   <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                     <h3>Ampolas NaCl 10%</h3>
                     <v-divider class="mx-3"></v-divider>
-                    <span>x {{ ((kg * 1.0) / 17.1).toFixed() }} - {{ ((kg * 1.5) / 17.1).toFixed() }}</span>
+                    <span>{{ ((kg * 1.0) / 17.1).toFixed() }} - {{ ((kg * 1.5) / 17.1).toFixed() }}</span>
                   </v-col>
                   <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                     <h3>Ampolas KCl 10%</h3>
                     <v-divider class="mx-3"></v-divider>
-                    <span>x {{ ((kg * 1.0) / 13.5).toFixed() }}</span>
+                    <span>{{ ((kg * 1.0) / 13.5).toFixed() }}</span>
                   </v-col>
                   <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                     <h3>Bolsas 500 ml SG 50%</h3>
                     <v-divider class="mx-3"></v-divider>
-                    <span>x {{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
+                    <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
                   </v-col>
                   <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                     <h4>ou</h4>
@@ -528,7 +524,7 @@
                       <h3>Bolsas 500 ml SF 0,9%</h3>
                     </div>
                     <v-divider class="mx-3"></v-divider>
-                    <span>x {{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
+                    <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
                   </v-col>
                   <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center pt-0">
                     <h3>SG 50%</h3>
