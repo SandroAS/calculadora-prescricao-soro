@@ -88,6 +88,7 @@
                       label="Quantidade de soroterapia"
                       required
                       suffix="ml"
+                      @blur="soroGanho = removeLeftZeros(soroGanho)"
                     ></v-text-field>
                   </validation-provider>
                   <!-- Líquido ingerido -->
@@ -102,6 +103,7 @@
                       label="Quantidade de líquido ingerido"
                       required
                       suffix="ml"
+                      @blur="liquidoIngerido = removeLeftZeros(liquidoIngerido)"
                     ></v-text-field>
                   </validation-provider>
                   <!-- Outros -->
@@ -116,6 +118,7 @@
                       label="Outros"
                       required
                       suffix="ml"
+                      @blur="outros = removeLeftZeros(outros)"
                     ></v-text-field>
                   </validation-provider>
                   <!-- Quantidade de água endógena -->
@@ -157,7 +160,7 @@
                               required
                               suffix="ml"
                               :disabled="!houveDrenagemSerossanguinea"
-                              @blur="removeLeftZero('serossanguineo')"
+                              @blur="drenagemSerossanguinea = removeLeftZeros(drenagemSerossanguinea)"
                             ></v-text-field>
                           </validation-provider>
                         </v-col>
@@ -190,7 +193,7 @@
                               required
                               suffix="ml"
                               :disabled="!houveDrenagemGastrica"
-                              @blur="removeLeftZero('gastrico')"
+                              @blur="drenagemGastrica = removeLeftZeros(drenagemGastrica)"
                             ></v-text-field>
                           </validation-provider>
                         </v-col>
@@ -223,7 +226,7 @@
                               required
                               suffix="ml"
                               :disabled="!houveDrenagemDuodenal"
-                              @blur="removeLeftZero('duodenal')"
+                              @blur="drenagemDuodenal = removeLeftZeros(drenagemDuodenal)"
                             ></v-text-field>
                           </validation-provider>
                         </v-col>
@@ -256,7 +259,7 @@
                               required
                               suffix="ml"
                               :disabled="!houveDrenagemBile"
-                              @blur="removeLeftZero('bile')"
+                              @blur="drenagemBile = removeLeftZeros(drenagemBile)"
                             ></v-text-field>
                           </validation-provider>
                         </v-col>
@@ -289,7 +292,7 @@
                               required
                               suffix="ml"
                               :disabled="!houveDrenagemIleal"
-                              @blur="removeLeftZero('ileal')"
+                              @blur="drenagemIleal = removeLeftZeros(drenagemIleal)"
                             ></v-text-field>
                           </validation-provider>
                         </v-col>
@@ -322,7 +325,7 @@
                               required
                               suffix="ml"
                               :disabled="!houveDrenagemColica"
-                              @blur="removeLeftZero('colica')"
+                              @blur="drenagemColica = removeLeftZero(drenagemColica)"
                             ></v-text-field>
                           </validation-provider>
                         </v-col>
@@ -369,6 +372,7 @@
                       label="Diurese"
                       required
                       suffix="ml"
+                      @blur="diurese = removeLeftZeros(diurese)"
                     ></v-text-field>
                   </validation-provider>
                   <!-- Insensíveis -->
@@ -609,9 +613,11 @@
 </template>
 
 <script>
+import removeLeftZeros from '@/mixins/remove-left-zeros.js'
 
 export default {
   name: 'CalculadoraSoro',
+  mixins: [removeLeftZeros],
   data: () => ({
     valid: true,
     kg: '',
@@ -689,38 +695,6 @@ export default {
   methods: {
     submit () {
       this.$refs.observer.validate()
-    },
-    removeLeftZero(dreno) {
-      let temZeroAEsquerda = false
-      switch (dreno) {
-        case 'serossanguineo':
-          temZeroAEsquerda = this.drenagemSerossanguinea.substring(1, 0) === '0'
-          while (temZeroAEsquerda) {
-            if(temZeroAEsquerda) {
-              this.drenagemSerossanguinea = this.drenagemSerossanguinea.substring(1, this.drenagemSerossanguinea)
-            }
-            temZeroAEsquerda = this.drenagemSerossanguinea.substring(1, 0) === '0'
-          }
-          break
-        case 'gastrico':
-          temZeroAEsquerda = this.drenagemGastrica.substring(1, 0) === '0'
-          while (temZeroAEsquerda) {
-            if(temZeroAEsquerda) {
-              this.drenagemGastrica = this.drenagemGastrica.substring(1, this.drenagemGastrica)
-            }
-            temZeroAEsquerda = this.drenagemGastrica.substring(1, 0) === '0'
-          }
-          break
-        case 'duodenal':
-          temZeroAEsquerda = this.drenagemDuodenal.substring(1, 0) === '0'
-          while (temZeroAEsquerda) {
-            if(temZeroAEsquerda) {
-              this.drenagemDuodenal = this.drenagemDuodenal.substring(1, this.drenagemDuodenal)
-            }
-            temZeroAEsquerda = this.drenagemDuodenal.substring(1, 0) === '0'
-          }
-          break
-      }
     }
   }
 }
