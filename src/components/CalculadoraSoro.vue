@@ -503,17 +503,19 @@
                     </v-col>
                     <!-- Ganhos Valores -->
                     <v-col cols="12" sm="4" md="4" class="d-flex justify-space-between">
-                      <span>{{ ganhos }}</span>
+                      <span>{{ ganhos }} ml</span>
                       <h3>-</h3>
                     </v-col>
                     <!-- Perdas Valores -->
                     <v-col cols="12" sm="4" md="4" class="d-flex justify-space-between">
-                      <span>{{ perdas }}</span>
+                      <span>{{ perdas }} ml</span>
                       <h3>=</h3>
                     </v-col>
                     <!-- Total Valores -->
                     <v-col cols="12" sm="4" md="4" class="d-flex justify-center">
-                      <span>{{ ganhos - perdas }}</span>
+                      <span :class="ganhos - perdas > 0 ? 'success--text' : 'red--text'">
+                        {{ ganhos - perdas }} ml
+                      </span>
                     </v-col>
                   </v-row>
                 </template>
@@ -524,7 +526,16 @@
                   <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                     <h3>Água</h3>
                     <v-divider class="mx-3"></v-divider>
-                    <span>{{ kg * 30 }} - {{ kg * 40 }} ml</span>
+                    <span>
+                      {{ ganhos - perdas > 0
+                        ? kg * 30
+                        : (kg * 30) + (ganhos - perdas) * (-1)
+                      }} - {{
+                        ganhos - perdas > 0
+                        ? kg * 40
+                        : (kg * 40) + (ganhos - perdas) * (-1)
+                      }} ml
+                    </span>
                   </v-col>
                   <!-- Sódio -->
                   <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
@@ -681,7 +692,7 @@ export default {
       return this.soroGanho + 400
     },
     perdas() {
-      return parseInt(this.diurese) + parseInt(this.insensiveis)
+      return this.diurese === '' ? parseInt(this.insensiveis) : parseInt(this.diurese) + parseInt(this.insensiveis)
     },
     sodio() {
       return this.sodioGastrica + this.sodioDuodenal + this.sodioBile + this.sodioSucoPancreatico + this.sodioIleal + this.sodioColica
