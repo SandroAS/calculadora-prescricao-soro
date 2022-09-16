@@ -22,7 +22,6 @@
           <v-card-text>
             <validation-observer
               ref="observer"
-              v-slot="{ invalid }"
             >
               <v-form
                 ref="form"
@@ -135,7 +134,7 @@
                     <h2 class="mb-5">Perdas</h2>
                     <!-- Drenagens -->
                     <v-row>
-                      <v-col cols="12" sm="12" md="12">
+                      <v-col cols="12" sm="12" md="12" class="pb-0">
                         <v-row>
                           <!-- Checkbox Drenagem Serossanguínea -->
                           <v-col sm="6" md="6">
@@ -168,7 +167,7 @@
                           </v-col>
                         </v-row>
                       </v-col>
-                      <v-col cols="12" sm="12" md="12">
+                      <v-col cols="12" sm="12" md="12" class="pb-0">
                         <v-row>
                           <!-- Checkbox Drenagem Gástrica -->
                           <v-col sm="6" md="6">
@@ -201,7 +200,7 @@
                           </v-col>
                         </v-row>
                       </v-col>
-                      <v-col cols="12" sm="12" md="12">
+                      <v-col cols="12" sm="12" md="12" class="pb-0">
                         <v-row>
                           <!-- Checkbox Drenagem Duodenal -->
                           <v-col sm="6" md="6">
@@ -234,7 +233,7 @@
                           </v-col>
                         </v-row>
                       </v-col>
-                      <v-col cols="12" sm="12" md="12">
+                      <v-col cols="12" sm="12" md="12" class="pb-0">
                         <v-row>
                           <!-- Checkbox Drenagem Bile -->
                           <v-col sm="6" md="6">
@@ -267,7 +266,7 @@
                           </v-col>
                         </v-row>
                       </v-col>
-                      <v-col cols="12" sm="12" md="12">
+                      <v-col cols="12" sm="12" md="12" class="pb-0">
                         <v-row>
                           <!-- Checkbox Drenagem Ileal -->
                           <v-col sm="6" md="6">
@@ -300,7 +299,7 @@
                           </v-col>
                         </v-row>
                       </v-col>
-                      <v-col cols="12" sm="12" md="12">
+                      <v-col cols="12" sm="12" md="12" class="pb-0">
                         <v-row>
                           <!-- Checkbox Drenagem Cólica -->
                           <v-col sm="6" md="6">
@@ -327,7 +326,7 @@
                                 required
                                 suffix="ml"
                                 :disabled="!houveDrenagemColica"
-                                @blur="drenagemColica = removeLeftZero(drenagemColica)"
+                                @blur="drenagemColica = removeLeftZeros(drenagemColica)"
                               ></v-text-field>
                             </validation-provider>
                           </v-col>
@@ -522,95 +521,96 @@
                     </v-row>
                   </div>
                 </transition>
+                <!-- Resultado / Prescrição -->
+                <transition name="slide">
+                  <div v-if="mostrarResultado">
+                    <h2 class="mb-5">Cálculo NBD</h2>
+                    <v-row class="mb-3">
+                      <!-- Água -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h3>Água</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>
+                          {{ ganhos - perdas > 0
+                            ? kg * 30
+                            : (kg * 30) + (ganhos - perdas) * (-1)
+                          }} - {{
+                            ganhos - perdas > 0
+                            ? kg * 40
+                            : (kg * 40) + (ganhos - perdas) * (-1)
+                          }} ml
+                        </span>
+                      </v-col>
+                      <!-- Sódio -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h3>Sódio</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>{{ kg * 1.0 }} - {{ kg * 1.5 }} mEq</span>
+                      </v-col>
+                      <!-- Potássio -->
+                      <v-col v-if="!temPosOperatorioImediato" cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h3>Potássio</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>{{ kg * 1 }} mEq</span>
+                      </v-col>
+                      <!-- Glicose -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h3>Glicose</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>{{ 100 }} - {{ 150 }} mEq</span>
+                      </v-col>
+                    </v-row>
 
-                <template v-if="false">
-                  <h2 class="mb-5">Cálculo NBD</h2>
-                  <v-row class="mb-3">
-                    <!-- Água -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h3>Água</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>
-                        {{ ganhos - perdas > 0
-                          ? kg * 30
-                          : (kg * 30) + (ganhos - perdas) * (-1)
-                        }} - {{
-                          ganhos - perdas > 0
-                          ? kg * 40
-                          : (kg * 40) + (ganhos - perdas) * (-1)
-                        }} ml
-                      </span>
-                    </v-col>
-                    <!-- Sódio -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h3>Sódio</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>{{ kg * 1.0 }} - {{ kg * 1.5 }} mEq</span>
-                    </v-col>
-                    <!-- Potássio -->
-                    <v-col v-if="!temPosOperatorioImediato" cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h3>Potássio</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>{{ kg * 1 }} mEq</span>
-                    </v-col>
-                    <!-- Glicose -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h3>Glicose</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>{{ 100 }} - {{ 150 }} mEq</span>
-                    </v-col>
-                  </v-row>
+                    <h2 class="mb-5">Prescrição</h2>
+                    <v-row class="mb-3">
+                      <!-- Ampola NaCl -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h3>Ampolas NaCl 10%</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>{{ ((kg * 1.0) / 17.1).toFixed() }} - {{ ((kg * 1.5) / 17.1).toFixed() }}</span>
+                      </v-col>
+                      <!-- Ampola KCl -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h3>Ampolas KCl 10%</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>{{ ((kg * 1.0) / 13.5).toFixed() }}</span>
+                      </v-col>
+                      <!-- Bolsas SG -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h3>Bolsas 500 ml SG 50%</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
+                      </v-col>
+                      <!-- Ou -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                        <h4>ou</h4>
+                      </v-col>
+                      <!-- Bolsas SF -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center pb-0">
+                        <div>
+                          <h3>Bolsas 500 ml SF 0,9%</h3>
+                        </div>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
+                      </v-col>
+                      <!-- + SG -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center pt-0">
+                        <h3>SG 50%</h3>
+                        <v-divider class="mx-3"></v-divider>
+                        <span>+ mínimo 200 - 300 ml</span>
+                      </v-col>
+                    </v-row>
 
-                  <h2 class="mb-5">Prescrição</h2>
-                  <v-row class="mb-3">
-                    <!-- Ampola NaCl -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h3>Ampolas NaCl 10%</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>{{ ((kg * 1.0) / 17.1).toFixed() }} - {{ ((kg * 1.5) / 17.1).toFixed() }}</span>
-                    </v-col>
-                    <!-- Ampola KCl -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h3>Ampolas KCl 10%</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>{{ ((kg * 1.0) / 13.5).toFixed() }}</span>
-                    </v-col>
-                    <!-- Bolsas SG -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h3>Bolsas 500 ml SG 50%</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
-                    </v-col>
-                    <!-- Ou -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
-                      <h4>ou</h4>
-                    </v-col>
-                    <!-- Bolsas SF -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center pb-0">
-                      <div>
-                        <h3>Bolsas 500 ml SF 0,9%</h3>
-                      </div>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
-                    </v-col>
-                    <!-- + SG -->
-                    <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center pt-0">
-                      <h3>SG 50%</h3>
-                      <v-divider class="mx-3"></v-divider>
-                      <span>+ mínimo 200 - 300 ml</span>
-                    </v-col>
-                  </v-row>
+                    <v-divider class="mb-5"></v-divider>
 
-                  <v-divider class="mb-5"></v-divider>
-
-                  <h3 style="color: mediumvioletred;">Gotejamento: {{ (((kg * 30) / 500).toFixed()) * 7 }} - {{ (((kg * 40) / 500).toFixed() * 7) }} gotas/min (24h)</h3>
-                </template>
+                    <h3 style="color: mediumvioletred;">Gotejamento: {{ (((kg * 30) / 500).toFixed()) * 7 }} - {{ (((kg * 40) / 500).toFixed() * 7) }} gotas/min (24h)</h3>
+                  </div>
+                </transition>
 
                 <!-- Calcular -->
                 <v-card-actions class="mt-5">
                   <v-btn
                     type="submit"
-                    :disabled="invalid"
                     color="primary"
                   >
                     Calcular
@@ -687,7 +687,8 @@ export default {
     possuiFebre: false,
     febre: 37.2,
     insensiveisTaquipneia: 0,
-    taquipneia: 0
+    taquipneia: 0,
+    mostrarResultado: false
   }),
   computed: {
     insensiveis() {
@@ -805,8 +806,12 @@ export default {
     }
   },
   methods: {
-    submit () {
-      this.$refs.observer.validate()
+    async submit() {
+      if(await this.$refs.observer.validate()) {
+        this.mostrarResultado = true
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
   }
 }
