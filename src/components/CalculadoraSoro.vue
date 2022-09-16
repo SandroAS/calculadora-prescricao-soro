@@ -338,25 +338,25 @@
                     <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                       <h3>Sódio</h3>
                       <v-divider class="mx-3"></v-divider>
-                      <span>{{ ganhos }}</span>
+                      <span>{{ sodio.toFixed() }} mEq</span>
                     </v-col>
                     <!-- Potássio -->
                     <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                       <h3>Potássio</h3>
                       <v-divider class="mx-3"></v-divider>
-                      <span>{{ ganhos }}</span>
+                      <span>{{ potassio.toFixed() }} mEq</span>
                     </v-col>
                     <!-- Cloreto -->
                     <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                       <h3>Cloreto</h3>
                       <v-divider class="mx-3"></v-divider>
-                      <span>{{ ganhos }}</span>
+                      <span>{{ cloreto.toFixed() }} mEq</span>
                     </v-col>
                     <!-- Bicarbonato -->
                     <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                       <h3>Bicarbonato</h3>
                       <v-divider class="mx-3"></v-divider>
-                      <span>{{ ganhos }}</span>
+                      <span>{{ bicarbonato.toFixed() }} mEq</span>
                     </v-col>
                   </v-row>
 
@@ -638,6 +638,30 @@ export default {
     drenagemSucoPancreatico: '0',
     drenagemIleal: '0',
     drenagemColica: '0',
+    sodioGastrica: 0,
+    potassioGastrica: 0,
+    cloretoGastrica: 0,
+    bicarbonatoGastrica: 0,
+    sodioDuodenal: 0,
+    potassioDuodenal: 0,
+    cloretoDuodenal: 0,
+    bicarbonatoDuodenal: 0,
+    sodioBile: 0,
+    potassioBile: 0,
+    cloretoBile: 0,
+    bicarbonatoBile: 0,
+    sodioSucoPancreatico: 0,
+    potassioSucoPancreatico: 0,
+    cloretoSucoPancreatico: 0,
+    bicarbonatoSucoPancreatico: 0,
+    sodioIleal: 0,
+    potassioIleal: 0,
+    cloretoIleal: 0,
+    bicarbonatoIleal: 0,
+    sodioColica: 0,
+    potassioColica: 0,
+    cloretoColica: 0,
+    bicarbonatoColica: 0,
     liquidoIngerido: '',
     outros: '',
     diurese: '',
@@ -658,6 +682,18 @@ export default {
     },
     perdas() {
       return parseInt(this.diurese) + parseInt(this.insensiveis)
+    },
+    sodio() {
+      return this.sodioGastrica + this.sodioDuodenal + this.sodioBile + this.sodioSucoPancreatico + this.sodioIleal + this.sodioColica
+    },
+    potassio() {
+      return this.potassioGastrica + this.potassioDuodenal + this.potassioBile + this.potassioSucoPancreatico + this.potassioIleal + this.potassioColica
+    },
+    cloreto() {
+      return this.cloretoGastrica + this.cloretoDuodenal + this.cloretoBile + this.cloretoSucoPancreatico + this.cloretoIleal + this.cloretoColica
+    },
+    bicarbonato() {
+      return this.bicarbonatoGastrica + this.bicarbonatoDuodenal + this.bicarbonatoBile + this.bicarbonatoSucoPancreatico + this.bicarbonatoIleal + this.bicarbonatoColica
     }
   },
   watch: {
@@ -690,6 +726,66 @@ export default {
     },
     houveDrenagemDuodenal(newHouveDrenagemDuodenal) {
       if(!newHouveDrenagemDuodenal) this.drenagemDuodenal = 0
+    },
+    houveDrenagemBile(newHouveDrenagemBile) {
+      if(!newHouveDrenagemBile) this.drenagemBile = 0
+    },
+    houveDrenagemSucoPancreatico(newHouveDrenagemSucoPancreatico) {
+      if(!newHouveDrenagemSucoPancreatico) this.drenagemSucoPancreatico = 0
+    },
+    houveDrenagemIleal(newHouveDrenagemIleal) {
+      if(!newHouveDrenagemIleal) this.drenagemIleal = 0
+    },
+    houveDrenagemColica(newHouveDrenagemColica) {
+      if(!newHouveDrenagemColica) this.drenagemColica = 0
+    },
+    drenagemGastrica(newDrenagemGastrica) {
+      if(newDrenagemGastrica > 0) {
+        this.sodioGastrica = (newDrenagemGastrica * 60) / 1000
+        this.potassioGastrica = (newDrenagemGastrica * 10) / 1000
+        this.cloretoGastrica = (newDrenagemGastrica * 130) / 1000
+        this.bicarbonatoGastrica = 0
+      }
+    },
+    drenagemDuodenal(newDrenagemDuodenal) {
+      if(newDrenagemDuodenal > 0) {
+        this.sodioDuodenal = (newDrenagemDuodenal * 140) / 1000
+        this.potassioDuodenal = (newDrenagemDuodenal * 5) / 1000
+        this.cloretoDuodenal = (newDrenagemDuodenal * 80) / 1000
+        this.bicarbonatoDuodenal = (newDrenagemDuodenal * 10) / 1000
+      }
+    },
+    drenagemBile(newDrenagemBile) {
+      if(newDrenagemBile > 0) {
+        this.sodioBile = (newDrenagemBile * 145) / 1000
+        this.potassioBile = (newDrenagemBile * 5) / 1000
+        this.cloretoBile = (newDrenagemBile * 100) / 1000
+        this.bicarbonatoBile = (newDrenagemBile * 35) / 1000
+      }
+    },
+    drenagemSucoPancreatico(newDrenagemSucoPancreatico) {
+      if(newDrenagemSucoPancreatico > 0) {
+        this.sodioSucoPancreatico = (newDrenagemSucoPancreatico * 140) / 1000
+        this.potassioSucoPancreatico = (newDrenagemSucoPancreatico * 5) / 1000
+        this.cloretoSucoPancreatico = (newDrenagemSucoPancreatico * 75) / 1000
+        this.bicarbonatoSucoPancreatico = (newDrenagemSucoPancreatico * 115) / 1000
+      }
+    },
+    drenagemIleal(newDrenagemIleal) {
+      if(newDrenagemIleal > 0) {
+        this.sodioIleal = (newDrenagemIleal * 140) / 1000
+        this.potassioIleal = (newDrenagemIleal * 5) / 1000
+        this.cloretoIleal = (newDrenagemIleal * 140) / 1000
+        this.bicarbonatoIleal = (newDrenagemIleal * 30) / 1000
+      }
+    },
+    drenagemColica(newDrenagemColica) {
+      if(newDrenagemColica > 0) {
+        this.sodioColica = (newDrenagemColica * 60) / 1000
+        this.potassioColica = (newDrenagemColica * 30) / 1000
+        this.cloretoColica = (newDrenagemColica * 40) / 1000
+        this.bicarbonatoColica = 0
+      }
     }
   },
   methods: {
