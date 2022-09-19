@@ -72,6 +72,7 @@
                         type="number"
                         :disabled="temPosOperatorioImediato"
                         class="mb-5"
+                        @blur="diaPosOperatorio = removeLeftZeros(diaPosOperatorio)"
                       ></v-text-field>
                     </validation-provider>
 
@@ -378,102 +379,149 @@
                     </validation-provider>
                     <!-- Insensíveis -->
                     <v-row>
-                      <!-- Insensíveis Temperatura do Dia -->
-                      <v-col cols="12" sm="12" md="6">
-                        <v-text-field
-                          v-model="insensiveisTemperaturaDoDia"
-                          label="Insensíveis"
-                          required
-                          suffix="ml"
-                          prefix="+"
-                          disabled
-                        ></v-text-field>
+                      <v-col cols="12" sm="12" md="12">
+                        <v-row>
+                          <!-- Insensíveis Temperatura do Dia -->
+                          <v-col cols="12" sm="12" md="6">
+                            <v-text-field
+                              v-model="insensiveisTemperaturaDoDia"
+                              label="Insensíveis"
+                              required
+                              suffix="ml"
+                              prefix="+"
+                              disabled
+                            ></v-text-field>
+                          </v-col>
+                          <!-- Temperatura do Dia -->
+                          <v-col cols="12" sm="12" md="6">
+                            <validation-provider
+                              v-slot="{ errors }"
+                              name="Temperatura do dia"
+                              rules="required|numeric"
+                            >
+                              <v-text-field
+                                v-model="temperaturaDoDia"
+                                :error-messages="errors"
+                                label="Temperatura do dia"
+                                required
+                                suffix="°C"
+                                type="number"
+                              ></v-text-field>
+                            </validation-provider>
+                          </v-col>
+                        </v-row>
                       </v-col>
-                      <!-- Temperatura do Dia -->
-                      <v-col cols="12" sm="12" md="6">
-                        <validation-provider
-                          v-slot="{ errors }"
-                          name="Temperatura do dia"
-                          rules="required|numeric"
+                      <!-- Adicionar Campos de Febre -->
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-end py-0">
+                        <v-btn
+                          fab
+                          dark
+                          x-small
+                          color="primary"
+                          class="scale-houver"
+                          style="height: 20px;width: 20px;"
+                          @click="febres.push({ id: Math.floor(Math.random() * 100), possuiFebre: false, febre: 37.2 })"
                         >
-                          <v-text-field
-                            v-model="temperaturaDoDia"
-                            :error-messages="errors"
-                            label="Temperatura do dia"
-                            required
-                            suffix="°C"
-                            type="number"
-                          ></v-text-field>
-                        </validation-provider>
+                          <v-icon dark>
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
                       </v-col>
-                      <!-- Insensíveis Febre -->
-                      <v-col cols="12" sm="5" md="6">
-                        <v-text-field
-                          v-model="insensiveisFebre"
-                          label="Insensíveis"
-                          required
-                          suffix="ml"
-                          prefix="+"
-                          disabled
-                        ></v-text-field>
-                      </v-col>
-                      <!-- Possui Febre -->
-                      <v-col cols="12" sm="4" md="3">
-                        <v-checkbox
-                          v-model="possuiFebre"
-                          class="ma-0"
-                        >
-                          <template v-slot:label>
-                            <small>Possui febre?</small>
-                          </template>
-                        </v-checkbox>
-                      </v-col>
-                      <!-- Febre -->
-                      <v-col cols="12" sm="3" md="3">
-                        <validation-provider
-                          v-slot="{ errors }"
-                          name="Febre"
-                          rules="required|double"
-                        >
-                          <v-text-field
-                            v-model="febre"
-                            :error-messages="errors"
-                            label="Febre"
-                            required
-                            suffix="°C"
-                            type="number"
-                            min="37.2"
-                            :disabled="!possuiFebre"
-                          ></v-text-field>
-                        </validation-provider>
-                      </v-col>
-                      <!-- Insensíveis Taquipneia -->
-                      <v-col cols="12" sm="12" md="6">
-                        <v-text-field
-                          v-model="insensiveisTaquipneia"
-                          label="Insensíveis"
-                          required
-                          suffix="ml"
-                          prefix="+"
-                          disabled
-                        ></v-text-field>
-                      </v-col>
-                      <!-- Taquipneia -->
-                      <v-col cols="12" sm="12" md="6">
-                        <validation-provider
-                          v-slot="{ errors }"
-                          name="Taquipneia"
-                          rules="required|numeric"
-                        >
-                          <v-text-field
-                            v-model="taquipneia"
-                            :error-messages="errors"
-                            label="Taquipneia"
-                            required
-                            suffix="irpm"
-                            type="number"
-                          ></v-text-field>
-                        </validation-provider>
+                      <template v-for="(camposFebre, index) in febres">
+                        <v-col :key="camposFebre.id" cols="12" sm="12" md="12" class="pt-0">
+                          <v-row>
+                            <!-- Insensíveis Febre -->
+                            <v-col cols="12" sm="5" md="6">
+                              <v-text-field
+                                v-if="index === 0"
+                                v-model="insensiveisFebre"
+                                label="Insensíveis"
+                                required
+                                suffix="ml"
+                                prefix="+"
+                                disabled
+                              ></v-text-field>
+                            </v-col>
+                            <!-- Possui Febre -->
+                            <v-col cols="12" sm="4" md="3">
+                              <v-checkbox
+                                v-model="camposFebre.possuiFebre"
+                                class="ma-0"
+                                @change="resetFebre(camposFebre)"
+                              >
+                                <template v-slot:label>
+                                  <small>Possui febre?</small>
+                                </template>
+                              </v-checkbox>
+                            </v-col>
+                            <!-- Febre -->
+                            <v-col cols="12" sm="3" md="3" class="d-flex align-center">
+                              <validation-provider
+                                v-slot="{ errors }"
+                                name="Febre"
+                                rules="required|double"
+                              >
+                                <v-text-field
+                                  v-model="camposFebre.febre"
+                                  :error-messages="errors"
+                                  label="Febre"
+                                  required
+                                  suffix="°C"
+                                  type="number"
+                                  min="37.2"
+                                  :disabled="!camposFebre.possuiFebre"
+                                  @change="setFebre(camposFebre)"
+                                ></v-text-field>
+                              </validation-provider>
+                              <v-btn
+                                v-if="index !== 0"
+                                fab
+                                dark
+                                x-small
+                                color="red"
+                                class="scale-houver ml-3"
+                                style="height: 20px;width: 20px;"
+                                @click="febres.splice(febres.indexOf(camposFebre), 1)"
+                              >
+                                <v-icon dark>
+                                  mdi-minus
+                                </v-icon>
+                              </v-btn>
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </template>
+                      <v-col cols="12" sm="12" md="12">
+                        <v-row>
+                          <!-- Insensíveis Taquipneia -->
+                          <v-col cols="12" sm="12" md="6">
+                            <v-text-field
+                              v-model="insensiveisTaquipneia"
+                              label="Insensíveis"
+                              required
+                              suffix="ml"
+                              prefix="+"
+                              disabled
+                            ></v-text-field>
+                          </v-col>
+                          <!-- Taquipneia -->
+                          <v-col cols="12" sm="12" md="6">
+                            <validation-provider
+                              v-slot="{ errors }"
+                              name="Taquipneia"
+                              rules="required|numeric"
+                            >
+                              <v-text-field
+                                v-model="taquipneia"
+                                :error-messages="errors"
+                                label="Taquipneia"
+                                required
+                                suffix="irpm"
+                                type="number"
+                              ></v-text-field>
+                            </validation-provider>
+                          </v-col>
+                        </v-row>
                       </v-col>
                     </v-row>
                     <!-- Insensíveis Total -->
@@ -570,7 +618,7 @@
                         <span>{{ ((kg * 1.0) / 17.1).toFixed() }} - {{ ((kg * 1.5) / 17.1).toFixed() }}</span>
                       </v-col>
                       <!-- Ampola KCl -->
-                      <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
+                      <v-col v-if="!temPosOperatorioImediato" cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                         <h3>Ampolas KCl 10%</h3>
                         <v-divider class="mx-3"></v-divider>
                         <span>{{ ((kg * 1.0) / 13.5).toFixed() }}</span>
@@ -683,14 +731,28 @@ export default {
     diurese: '',
     insensiveisTemperaturaDoDia: 1000,
     temperaturaDoDia: 29,
-    insensiveisFebre: 0,
-    possuiFebre: false,
-    febre: 37.2,
+    febres: [
+      { id: Math.floor(Math.random() * 100), possuiFebre: false, febre: 37.2 }
+    ],
     insensiveisTaquipneia: 0,
     taquipneia: 0,
     mostrarResultado: false
   }),
   computed: {
+    insensiveisFebre: {
+      get() {
+        let somaInsensiveisFebre = 0
+        this.febres.forEach((f) => {
+          somaInsensiveisFebre += f.febre > 37.2 && f.febre - 37.2 >= 1
+            ? Math.trunc((f.febre - 37.2)) * 100
+            : 0
+        })
+        return somaInsensiveisFebre
+      },
+      set(value) {
+        return value
+      }
+    },
     insensiveis() {
       return this.insensiveisTemperaturaDoDia + this.insensiveisFebre + this.insensiveisTaquipneia
     },
@@ -720,17 +782,6 @@ export default {
           this.insensiveisTemperaturaDoDia = (Math.floor((newTemperaturaDoDia - 29).toFixed() / 3) * 500) + 1000
         }
       } else this.insensiveisTemperaturaDoDia = 1000
-    },
-    possuiFebre(newPossuiFebre) {
-      if(!newPossuiFebre) {
-        this.insensiveisFebre = 0
-        this.febre = 37.2
-      }
-    },
-    febre(newFebre) {
-      this.insensiveisFebre = newFebre > 37.2 && newFebre - 37.2 >= 1
-        ? Math.trunc((newFebre - 37.2)) * 100
-        : 0
     },
     taquipneia(newTaquipneia) {
       this.insensiveisTaquipneia = newTaquipneia > 35 ? 1000 : 0
@@ -812,6 +863,17 @@ export default {
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
+    },
+    resetFebre(camposFebre) {
+      if(!camposFebre.possuiFebre) {
+        this.insensiveisFebre -= camposFebre.febre
+        camposFebre.febre = 37.2
+      }
+    },
+    setFebre(camposFebre) {
+      this.insensiveisFebre = camposFebre.febre > 37.2 && camposFebre.febre - 37.2 >= 1
+        ? Math.trunc((camposFebre.febre - 37.2)) * 100
+        : 0
     }
   }
 }
@@ -840,5 +902,9 @@ export default {
   100% {
     transform: translateY(0px);
   }
+}
+
+.scale-houver:hover {
+  transform: scale(1.1);
 }
 </style>
