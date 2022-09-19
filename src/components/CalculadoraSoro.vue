@@ -874,7 +874,7 @@ export default {
       if(await this.$refs.observer.validate()) {
         this.mostrarResultado = true
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        // window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     },
     resetFebre(camposFebre) {
