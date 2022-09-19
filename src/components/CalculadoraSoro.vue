@@ -688,6 +688,8 @@ export default {
     temPosOperatorioImediato: true,
     diaPosOperatorio: 0,
     soroGanho: '',
+    liquidoIngerido: '',
+    outros: '',
     houveDrenagemSerossanguinea: false,
     houveDrenagemGastrica: false,
     houveDrenagemDuodenal: false,
@@ -726,8 +728,6 @@ export default {
     potassioColica: 0,
     cloretoColica: 0,
     bicarbonatoColica: 0,
-    liquidoIngerido: '',
-    outros: '',
     diurese: '',
     insensiveisTemperaturaDoDia: 1000,
     temperaturaDoDia: 29,
@@ -757,10 +757,23 @@ export default {
       return this.insensiveisTemperaturaDoDia + this.insensiveisFebre + this.insensiveisTaquipneia
     },
     ganhos() {
-      return this.soroGanho + 400
+      let somaGanhos = 400
+      if(!isNaN(parseInt(this.soroGanho))) somaGanhos += parseInt(this.soroGanho)
+      if(!isNaN(parseInt(this.liquidoIngerido))) somaGanhos += parseInt(this.liquidoIngerido)
+      if(!isNaN(parseInt(this.outros))) somaGanhos += parseInt(this.outros)
+      return somaGanhos
     },
     perdas() {
-      return this.diurese === '' ? parseInt(this.insensiveis) : parseInt(this.diurese) + parseInt(this.insensiveis)
+      let somaPerdas = parseInt(this.insensiveis)
+      if(!isNaN(parseInt(this.drenagemSerossanguinea))) somaPerdas += parseInt(this.drenagemSerossanguinea)
+      if(!isNaN(parseInt(this.drenagemGastrica))) somaPerdas += parseInt(this.drenagemGastrica)
+      if(!isNaN(parseInt(this.drenagemDuodenal))) somaPerdas += parseInt(this.drenagemDuodenal)
+      if(!isNaN(parseInt(this.drenagemBile))) somaPerdas += parseInt(this.drenagemBile)
+      if(!isNaN(parseInt(this.drenagemSucoPancreatico))) somaPerdas += parseInt(this.drenagemSucoPancreatico)
+      if(!isNaN(parseInt(this.drenagemIleal))) somaPerdas += parseInt(this.drenagemIleal)
+      if(!isNaN(parseInt(this.drenagemColica))) somaPerdas += parseInt(this.drenagemColica)
+      if(!isNaN(parseInt(this.diurese))) somaPerdas += parseInt(this.diurese)
+      return somaPerdas
     },
     sodio() {
       return this.sodioGastrica + this.sodioDuodenal + this.sodioBile + this.sodioSucoPancreatico + this.sodioIleal + this.sodioColica
