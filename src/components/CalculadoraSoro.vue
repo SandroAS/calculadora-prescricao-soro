@@ -134,206 +134,216 @@
 
                     <h2 class="mb-5">Perdas</h2>
                     <!-- Drenagens -->
-                    <v-row>
-                      <v-col cols="12" sm="12" md="12" class="pb-0">
-                        <v-row>
-                          <!-- Checkbox Drenagem Serossanguínea -->
-                          <v-col sm="6" md="6">
-                            <v-checkbox
-                              v-model="houveDrenagemSerossanguinea"
-                              class="ma-0"
-                            >
-                              <template v-slot:label>
-                                <small>Drenagem serossanguínea</small>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                          <!-- Input Drenagem Serossanguínea -->
-                          <v-col sm="6" md="6">
-                            <validation-provider
-                              v-slot="{ errors }"
-                              name="Quantidade de dreno serossanguíneo"
-                              rules="required|numeric"
-                            >
-                              <v-text-field
-                                v-model="drenagemSerossanguinea"
-                                :error-messages="errors"
-                                label="Quantidade de dreno serossanguíneo"
-                                required
-                                suffix="ml"
-                                :disabled="!houveDrenagemSerossanguinea"
-                                @blur="drenagemSerossanguinea = removeLeftZeros(drenagemSerossanguinea)"
-                              ></v-text-field>
-                            </validation-provider>
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="12" class="pb-0">
-                        <v-row>
-                          <!-- Checkbox Drenagem Gástrica -->
-                          <v-col sm="6" md="6">
-                            <v-checkbox
-                              v-model="houveDrenagemGastrica"
-                              class="ma-0"
-                            >
-                              <template v-slot:label>
-                                <small>Drenagem gástrica</small>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                          <!-- Input Drenagem Gástrica -->
-                          <v-col sm="6" md="6">
-                            <validation-provider
-                              v-slot="{ errors }"
-                              name="Quantidade de dreno gástrico"
-                              rules="required|numeric"
-                            >
-                              <v-text-field
-                                v-model="drenagemGastrica"
-                                :error-messages="errors"
-                                label="Quantidade de dreno gástrico"
-                                required
-                                suffix="ml"
-                                :disabled="!houveDrenagemGastrica"
-                                @blur="drenagemGastrica = removeLeftZeros(drenagemGastrica)"
-                              ></v-text-field>
-                            </validation-provider>
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="12" class="pb-0">
-                        <v-row>
-                          <!-- Checkbox Drenagem Duodenal -->
-                          <v-col sm="6" md="6">
-                            <v-checkbox
-                              v-model="houveDrenagemDuodenal"
-                              class="ma-0"
-                            >
-                              <template v-slot:label>
-                                <small>Drenagem duodenal</small>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                          <!-- Input Drenagem Duodenal -->
-                          <v-col sm="6" md="6">
-                            <validation-provider
-                              v-slot="{ errors }"
-                              name="Quantidade de dreno duodenal"
-                              rules="required|numeric"
-                            >
-                              <v-text-field
-                                v-model="drenagemDuodenal"
-                                :error-messages="errors"
-                                label="Quantidade de dreno duodenal"
-                                required
-                                suffix="ml"
-                                :disabled="!houveDrenagemDuodenal"
-                                @blur="drenagemDuodenal = removeLeftZeros(drenagemDuodenal)"
-                              ></v-text-field>
-                            </validation-provider>
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="12" class="pb-0">
-                        <v-row>
-                          <!-- Checkbox Drenagem Bile -->
-                          <v-col sm="6" md="6">
-                            <v-checkbox
-                              v-model="houveDrenagemBile"
-                              class="ma-0"
-                            >
-                              <template v-slot:label>
-                                <small>Drenagem bile</small>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                          <!-- Input Drenagem Bile -->
-                          <v-col sm="6" md="6">
-                            <validation-provider
-                              v-slot="{ errors }"
-                              name="Quantidade de dreno bile"
-                              rules="required|numeric"
-                            >
-                              <v-text-field
-                                v-model="drenagemBile"
-                                :error-messages="errors"
-                                label="Quantidade de dreno bile"
-                                required
-                                suffix="ml"
-                                :disabled="!houveDrenagemBile"
-                                @blur="drenagemBile = removeLeftZeros(drenagemBile)"
-                              ></v-text-field>
-                            </validation-provider>
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="12" class="pb-0">
-                        <v-row>
-                          <!-- Checkbox Drenagem Ileal -->
-                          <v-col sm="6" md="6">
-                            <v-checkbox
-                              v-model="houveDrenagemIleal"
-                              class="ma-0"
-                            >
-                              <template v-slot:label>
-                                <small>Drenagem ileal</small>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                          <!-- Input Drenagem Ileal -->
-                          <v-col sm="6" md="6">
-                            <validation-provider
-                              v-slot="{ errors }"
-                              name="Quantidade de dreno ileal"
-                              rules="required|numeric"
-                            >
-                              <v-text-field
-                                v-model="drenagemIleal"
-                                :error-messages="errors"
-                                label="Quantidade de dreno ileal"
-                                required
-                                suffix="ml"
-                                :disabled="!houveDrenagemIleal"
-                                @blur="drenagemIleal = removeLeftZeros(drenagemIleal)"
-                              ></v-text-field>
-                            </validation-provider>
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="12" class="pb-0">
-                        <v-row>
-                          <!-- Checkbox Drenagem Cólica -->
-                          <v-col sm="6" md="6">
-                            <v-checkbox
-                              v-model="houveDrenagemColica"
-                              class="ma-0"
-                            >
-                              <template v-slot:label>
-                                <small>Drenagem colica</small>
-                              </template>
-                            </v-checkbox>
-                          </v-col>
-                          <!-- Input Drenagem Cólica -->
-                          <v-col sm="6" md="6">
-                            <validation-provider
-                              v-slot="{ errors }"
-                              name="Quantidade de dreno colica"
-                              rules="required|numeric"
-                            >
-                              <v-text-field
-                                v-model="drenagemColica"
-                                :error-messages="errors"
-                                label="Quantidade de dreno colica"
-                                required
-                                suffix="ml"
-                                :disabled="!houveDrenagemColica"
-                                @blur="drenagemColica = removeLeftZeros(drenagemColica)"
-                              ></v-text-field>
-                            </validation-provider>
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                    </v-row>
+                    <v-expansion-panels class="mb-5">
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          Drenos e Sondas
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <v-row>
+                            <v-col cols="12" sm="12" md="12" class="pb-0">
+                              <v-row>
+                                <!-- Checkbox Drenagem Serossanguínea -->
+                                <v-col sm="6" md="6">
+                                  <v-checkbox
+                                    v-model="houveDrenagemSerossanguinea"
+                                    class="ma-0"
+                                  >
+                                    <template v-slot:label>
+                                      <small>Drenagem serossanguínea</small>
+                                    </template>
+                                  </v-checkbox>
+                                </v-col>
+                                <!-- Input Drenagem Serossanguínea -->
+                                <v-col sm="6" md="6">
+                                  <validation-provider
+                                    v-slot="{ errors }"
+                                    name="Quantidade de dreno serossanguíneo"
+                                    rules="required|numeric"
+                                  >
+                                    <v-text-field
+                                      v-model="drenagemSerossanguinea"
+                                      :error-messages="errors"
+                                      label="Quantidade de dreno serossanguíneo"
+                                      required
+                                      suffix="ml"
+                                      :disabled="!houveDrenagemSerossanguinea"
+                                      @blur="drenagemSerossanguinea = removeLeftZeros(drenagemSerossanguinea)"
+                                    ></v-text-field>
+                                  </validation-provider>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                            <v-col cols="12" sm="12" md="12" class="pb-0">
+                              <v-row>
+                                <!-- Checkbox Drenagem Gástrica -->
+                                <v-col sm="6" md="6">
+                                  <v-checkbox
+                                    v-model="houveDrenagemGastrica"
+                                    class="ma-0"
+                                  >
+                                    <template v-slot:label>
+                                      <small>Drenagem gástrica</small>
+                                    </template>
+                                  </v-checkbox>
+                                </v-col>
+                                <!-- Input Drenagem Gástrica -->
+                                <v-col sm="6" md="6">
+                                  <validation-provider
+                                    v-slot="{ errors }"
+                                    name="Quantidade de dreno gástrico"
+                                    rules="required|numeric"
+                                  >
+                                    <v-text-field
+                                      v-model="drenagemGastrica"
+                                      :error-messages="errors"
+                                      label="Quantidade de dreno gástrico"
+                                      required
+                                      suffix="ml"
+                                      :disabled="!houveDrenagemGastrica"
+                                      @blur="drenagemGastrica = removeLeftZeros(drenagemGastrica)"
+                                    ></v-text-field>
+                                  </validation-provider>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                            <v-col cols="12" sm="12" md="12" class="pb-0">
+                              <v-row>
+                                <!-- Checkbox Drenagem Duodenal -->
+                                <v-col sm="6" md="6">
+                                  <v-checkbox
+                                    v-model="houveDrenagemDuodenal"
+                                    class="ma-0"
+                                  >
+                                    <template v-slot:label>
+                                      <small>Drenagem duodenal</small>
+                                    </template>
+                                  </v-checkbox>
+                                </v-col>
+                                <!-- Input Drenagem Duodenal -->
+                                <v-col sm="6" md="6">
+                                  <validation-provider
+                                    v-slot="{ errors }"
+                                    name="Quantidade de dreno duodenal"
+                                    rules="required|numeric"
+                                  >
+                                    <v-text-field
+                                      v-model="drenagemDuodenal"
+                                      :error-messages="errors"
+                                      label="Quantidade de dreno duodenal"
+                                      required
+                                      suffix="ml"
+                                      :disabled="!houveDrenagemDuodenal"
+                                      @blur="drenagemDuodenal = removeLeftZeros(drenagemDuodenal)"
+                                    ></v-text-field>
+                                  </validation-provider>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                            <v-col cols="12" sm="12" md="12" class="pb-0">
+                              <v-row>
+                                <!-- Checkbox Drenagem Bile -->
+                                <v-col sm="6" md="6">
+                                  <v-checkbox
+                                    v-model="houveDrenagemBile"
+                                    class="ma-0"
+                                  >
+                                    <template v-slot:label>
+                                      <small>Drenagem bile</small>
+                                    </template>
+                                  </v-checkbox>
+                                </v-col>
+                                <!-- Input Drenagem Bile -->
+                                <v-col sm="6" md="6">
+                                  <validation-provider
+                                    v-slot="{ errors }"
+                                    name="Quantidade de dreno bile"
+                                    rules="required|numeric"
+                                  >
+                                    <v-text-field
+                                      v-model="drenagemBile"
+                                      :error-messages="errors"
+                                      label="Quantidade de dreno bile"
+                                      required
+                                      suffix="ml"
+                                      :disabled="!houveDrenagemBile"
+                                      @blur="drenagemBile = removeLeftZeros(drenagemBile)"
+                                    ></v-text-field>
+                                  </validation-provider>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                            <v-col cols="12" sm="12" md="12" class="pb-0">
+                              <v-row>
+                                <!-- Checkbox Drenagem Ileal -->
+                                <v-col sm="6" md="6">
+                                  <v-checkbox
+                                    v-model="houveDrenagemIleal"
+                                    class="ma-0"
+                                  >
+                                    <template v-slot:label>
+                                      <small>Drenagem ileal</small>
+                                    </template>
+                                  </v-checkbox>
+                                </v-col>
+                                <!-- Input Drenagem Ileal -->
+                                <v-col sm="6" md="6">
+                                  <validation-provider
+                                    v-slot="{ errors }"
+                                    name="Quantidade de dreno ileal"
+                                    rules="required|numeric"
+                                  >
+                                    <v-text-field
+                                      v-model="drenagemIleal"
+                                      :error-messages="errors"
+                                      label="Quantidade de dreno ileal"
+                                      required
+                                      suffix="ml"
+                                      :disabled="!houveDrenagemIleal"
+                                      @blur="drenagemIleal = removeLeftZeros(drenagemIleal)"
+                                    ></v-text-field>
+                                  </validation-provider>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                            <v-col cols="12" sm="12" md="12" class="pb-0">
+                              <v-row>
+                                <!-- Checkbox Drenagem Cólica -->
+                                <v-col sm="6" md="6">
+                                  <v-checkbox
+                                    v-model="houveDrenagemColica"
+                                    class="ma-0"
+                                  >
+                                    <template v-slot:label>
+                                      <small>Drenagem colica</small>
+                                    </template>
+                                  </v-checkbox>
+                                </v-col>
+                                <!-- Input Drenagem Cólica -->
+                                <v-col sm="6" md="6">
+                                  <validation-provider
+                                    v-slot="{ errors }"
+                                    name="Quantidade de dreno colica"
+                                    rules="required|numeric"
+                                  >
+                                    <v-text-field
+                                      v-model="drenagemColica"
+                                      :error-messages="errors"
+                                      label="Quantidade de dreno colica"
+                                      required
+                                      suffix="ml"
+                                      :disabled="!houveDrenagemColica"
+                                      @blur="drenagemColica = removeLeftZeros(drenagemColica)"
+                                    ></v-text-field>
+                                  </validation-provider>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                          </v-row>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+
                     <!-- Eletrolitos Perdidos -->
                     <v-row class="mb-3">
                       <!-- Sódio -->
@@ -412,21 +422,6 @@
                         </v-row>
                       </v-col>
                       <!-- Adicionar Campos de Febre -->
-                      <v-col cols="12" sm="12" md="12" class="d-flex justify-end py-0">
-                        <v-btn
-                          fab
-                          dark
-                          x-small
-                          color="primary"
-                          class="scale-houver"
-                          style="height: 20px;width: 20px;"
-                          @click="febres.push({ id: Math.floor(Math.random() * 100), possuiFebre: false, febre: 37.2 })"
-                        >
-                          <v-icon dark>
-                            mdi-plus
-                          </v-icon>
-                        </v-btn>
-                      </v-col>
                       <template v-for="(camposFebre, index) in febres">
                         <v-col :key="camposFebre.id" cols="12" sm="12" md="12" class="pt-0">
                           <v-row>
@@ -491,6 +486,21 @@
                           </v-row>
                         </v-col>
                       </template>
+                      <v-col cols="12" sm="12" md="12" class="d-flex justify-end py-0">
+                        <v-btn
+                          fab
+                          dark
+                          x-small
+                          color="primary"
+                          class="scale-houver"
+                          style="height: 20px;width: 20px;"
+                          @click="febres.push({ id: Math.floor(Math.random() * 100), possuiFebre: false, febre: 37.2 })"
+                        >
+                          <v-icon dark>
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
+                      </v-col>
                       <v-col cols="12" sm="12" md="12">
                         <v-row>
                           <!-- Insensíveis Taquipneia -->
