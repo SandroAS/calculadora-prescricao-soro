@@ -42,7 +42,7 @@
                     label="Peso"
                     required
                     suffix="Kg"
-                    v-mask="['##.###', '###.###']"
+                    v-mask="['##', '###']"
                   ></v-text-field>
                 </validation-provider>
 
