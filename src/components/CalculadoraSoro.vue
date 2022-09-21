@@ -579,14 +579,7 @@
                         <h3>Água</h3>
                         <v-divider class="mx-3"></v-divider>
                         <span>
-                          {{ ganhos - perdas > 0
-                            ? kg * 30
-                            : (kg * 30) + (ganhos - perdas) * (-1)
-                          }} - {{
-                            ganhos - perdas > 0
-                            ? kg * 40
-                            : (kg * 40) + (ganhos - perdas) * (-1)
-                          }} ml
+                          {{ kg * 30 }} - {{ kg * 40 }} ml
                         </span>
                       </v-col>
                       <!-- Sódio -->
@@ -615,19 +608,27 @@
                       <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                         <h3>Ampolas NaCl 10%</h3>
                         <v-divider class="mx-3"></v-divider>
-                        <span>{{ ((kg * 1.0) / 17.1).toFixed() }} - {{ ((kg * 1.5) / 17.1).toFixed() }}</span>
+                        <span>{{ (((kg * 1.0) + sodio) / 17.1).toFixed() }} - {{ (((kg * 1.5) + sodio) / 17.1).toFixed() }}</span>
                       </v-col>
                       <!-- Ampola KCl -->
                       <v-col v-if="!temPosOperatorioImediato" cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                         <h3>Ampolas KCl 10%</h3>
                         <v-divider class="mx-3"></v-divider>
-                        <span>{{ ((kg * 1.0) / 13.5).toFixed() }}</span>
+                        <span>{{ (((kg * 1.0) + potassio) / 13.5).toFixed() }}</span>
                       </v-col>
                       <!-- Bolsas SG -->
                       <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
                         <h3>Bolsas 500 ml SG 50%</h3>
                         <v-divider class="mx-3"></v-divider>
-                        <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
+                        <span>
+                          {{ ganhos - perdas > 0
+                            ? ((kg * 30) / 500).toFixed()
+                            : (((kg * 30) + (ganhos - perdas) * (-1)) / 500).toFixed()
+                          }} - {{ ganhos - perdas > 0
+                            ? ((kg * 40) / 500).toFixed()
+                            : (((kg * 40) + (ganhos - perdas) * (-1)) / 500).toFixed()
+                          }}
+                        </span>
                       </v-col>
                       <!-- Ou -->
                       <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center">
@@ -639,7 +640,15 @@
                           <h3>Bolsas 500 ml SF 0,9%</h3>
                         </div>
                         <v-divider class="mx-3"></v-divider>
-                        <span>{{ ((kg * 30) / 500).toFixed() }} - {{ ((kg * 40) / 500).toFixed() }}</span>
+                        <span>
+                          {{ ganhos - perdas > 0
+                            ? ((kg * 30) / 500).toFixed()
+                            : (((kg * 30) + (ganhos - perdas) * (-1)) / 500).toFixed()
+                          }} - {{ ganhos - perdas > 0
+                            ? ((kg * 40) / 500).toFixed()
+                            : (((kg * 40) + (ganhos - perdas) * (-1)) / 500).toFixed()
+                          }}
+                        </span>
                       </v-col>
                       <!-- + SG -->
                       <v-col cols="12" sm="12" md="12" class="d-flex justify-space-between align-center pt-0">
@@ -651,7 +660,15 @@
 
                     <v-divider class="mb-5"></v-divider>
 
-                    <h3 style="color: mediumvioletred;">Gotejamento: {{ (((kg * 30) / 500).toFixed()) * 7 }} - {{ (((kg * 40) / 500).toFixed() * 7) }} gotas/min (24h)</h3>
+                    <h3 style="color: mediumvioletred;">Gotejamento:
+                      {{ ganhos - perdas > 0
+                        ? ((kg * 30) / 500).toFixed() * 7
+                        : (((kg * 30) + (ganhos - perdas) * (-1)) / 500).toFixed() * 7
+                      }} - {{ ganhos - perdas > 0
+                        ? ((kg * 40) / 500).toFixed() * 7
+                        : (((kg * 40) + (ganhos - perdas) * (-1)) / 500).toFixed() * 7
+                      }} gotas/min (24h)
+                    </h3>
                   </div>
                 </transition>
 
@@ -686,7 +703,7 @@ export default {
     valid: true,
     kg: '',
     temPosOperatorioImediato: true,
-    diaPosOperatorio: 0,
+    diaPosOperatorio: 1,
     soroGanho: '',
     liquidoIngerido: '',
     outros: '',
