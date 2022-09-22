@@ -687,6 +687,7 @@
                   <v-btn
                     type="submit"
                     color="primary"
+                    :disabled="mostrarResultado"
                   >
                     Calcular
                   </v-btn>
